@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Production Support</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css?v=8.1.6"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="header">
+
+        <div class="header-title">
+
+            <div class="logo">
+                AI
+            </div>
+
+            <div>
+
+                <h1>
+                    AI Production Support
+                </h1>
+
+                <span class="subtitle">
+                    Enterprise Production Support Assistant
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            <span>
+                Online
+            </span>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN AREA
+    ====================================================== -->
+
+    <div class="main-container">
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside class="sidebar">
+
+
+            <!-- =============================================
+                 NEW CHAT
+            ============================================== -->
+
+            <button
+                id="new-chat-button"
+                class="new-chat-button"
+            >
+
+                <span class="plus">
+                    +
+                </span>
+
+                New Chat
+
+            </button>
+
+
+
+            <!-- =============================================
+                 CONVERSATIONS
+            ============================================== -->
+
+            <div class="sidebar-section">
+
+                <div class="sidebar-title">
+                    Conversations
+                </div>
+
+
+                <div
+                    id="conversation-list"
+                    class="conversation-list"
+                >
+                </div>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 MONITORING
+            ============================================== -->
+
+            <div class="sidebar-section monitoring-section">
+
+                <div class="sidebar-title">
+                    Monitoring
+                </div>
+
+
+                <button
+                    id="observability-button"
+                    class="observability-button"
+                    type="button"
+                >
+
+                    <span>
+                        📊
+                    </span>
+
+                    Observability
+
+                </button>
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- =================================================
+             CHAT VIEW
+
+             IMPORTANT:
+             This is a sibling of observability-view.
+             Do NOT put observability-view inside this main.
+        ================================================== -->
+
+        <main
+            id="chat-view"
+            class="chat-container"
+        >
+
+
+            <!-- =============================================
+                 CHAT HEADER
+            ============================================== -->
+
+            <div class="chat-header">
+
+                <div>
+
+                    <h2 id="conversation-title">
+                        New Conversation
+                    </h2>
+
+
+                    <span
+                        id="conversation-status"
+                        class="conversation-status"
+                    >
+                        Ready
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 MESSAGES
+            ============================================== -->
+
+            <div
+                id="messages"
+                class="messages"
+            >
+
+
+                <!-- =========================================
+                     EMPTY STATE
+                ========================================== -->
+
+                <div
+                    id="empty-state"
+                    class="empty-state"
+                >
+
+                    <div class="empty-icon">
+                        ✦
+                    </div>
+
+
+                    <h2>
+                        Your support assistant is ready
+                    </h2>
+
+
+                    <p>
+                        Ask a production support question
+                        to begin an investigation.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =============================================
+                 INPUT AREA
+            ============================================== -->
+
+            <div class="input-container">
+
+                <div class="input-wrapper">
+
+
+                    <textarea
+                        id="message-input"
+                        placeholder="Ask a production support question..."
+                        rows="1"
+                    ></textarea>
+
+
+                    <button
+                        id="send-button"
+                        class="send-button"
+                        type="button"
+                        title="Send"
+                    >
+                        ➤
+                    </button>
+
+
+                </div>
+
+
+                <div class="input-hint">
+                    AI Production Support Assistant
+                </div>
+
+            </div>
+
+
+        </main>
+
+
+
+        <!-- =================================================
+             OBSERVABILITY VIEW
+
+             IMPORTANT:
+             This MUST remain a sibling of chat-view.
+             app.js switches between these two views.
+        ================================================== -->
+
+        <main
+            id="observability-view"
+            class="observability-container"
+            style="display: none;"
+        >
+
+
+            <!-- =============================================
+                 OBSERVABILITY HEADER
+            ============================================== -->
+
+            <div class="observability-header">
+
+                <div>
+
+                    <h2>
+                        📊 Observability
+                    </h2>
+
+
+                    <span>
+                        Monitor the current AI investigation
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 METRICS
+            ============================================== -->
+
+            <div class="metrics-grid">
+
+
+                <!-- STATUS -->
+
+                <div class="metric-card">
+
+                    <div class="metric-label">
+                        Status
+                    </div>
+
+
+                    <div
+                        id="obs-status"
+                        class="metric-value"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+
+                <!-- DURATION -->
+
+                <div class="metric-card">
+
+                    <div class="metric-label">
+                        Duration
+                    </div>
+
+
+                    <div
+                        id="obs-duration"
+                        class="metric-value"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+
+                <!-- LLM CALLS -->
+
+                <div class="metric-card">
+
+                    <div class="metric-label">
+                        LLM Calls
+                    </div>
+
+
+                    <div
+                        id="obs-llm-calls"
+                        class="metric-value"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+
+                <!-- TOOL CALLS -->
+
+                <div class="metric-card">
+
+                    <div class="metric-label">
+                        Tool Calls
+                    </div>
+
+
+                    <div
+                        id="obs-tool-calls"
+                        class="metric-value"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+
+                <!-- RETRIES -->
+
+                <div class="metric-card">
+
+                    <div class="metric-label">
+                        Retries
+                    </div>
+
+
+                    <div
+                        id="obs-retries"
+                        class="metric-value"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =============================================
+                 EXECUTION INFORMATION
+            ============================================== -->
+
+            <div class="observability-section">
+
+                <h3>
+                    Execution
+                </h3>
+
+
+                <div class="execution-info">
+
+
+                    <!-- EXECUTION ID -->
+
+                    <div>
+
+                        <span class="info-label">
+                            Execution ID
+                        </span>
+
+
+                        <span
+                            id="obs-execution-id"
+                            class="info-value"
+                        >
+                            —
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- CONVERSATION ID -->
+
+                    <div>
+
+                        <span class="info-label">
+                            Conversation ID
+                        </span>
+
+
+                        <span
+                            id="obs-conversation-id"
+                            class="info-value"
+                        >
+                            —
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 TIMELINE
+            ============================================== -->
+
+            <div class="observability-section">
+
+                <h3>
+                    Timeline
+                </h3>
+
+
+                <div
+                    id="observability-timeline"
+                    class="observability-timeline"
+                >
+
+                    <div class="timeline-empty">
+                        No execution selected.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 TIMESTAMPS
+            ============================================== -->
+
+            <div
+                class="observability-section timestamps"
+            >
+
+
+                <!-- STARTED -->
+
+                <div>
+
+                    <span class="info-label">
+                        Started
+                    </span>
+
+
+                    <span
+                        id="obs-started"
+                        class="info-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+
+
+                <!-- COMPLETED -->
+
+                <div>
+
+                    <span class="info-label">
+                        Completed
+                    </span>
+
+
+                    <span
+                        id="obs-completed"
+                        class="info-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script src="/static/app.js"></script>
+
+
+</body>
+
+</html>

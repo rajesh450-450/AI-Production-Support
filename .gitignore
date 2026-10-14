@@ -1,0 +1,54 @@
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated vector indexes and runtime data
+faiss_index/
+vector_store/
+logs/
+*.log
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+
+# Local logs
+app_logs.txt
+logs/
+
+# Local retrieval data and generated indexes
+data/knowledge.db
+data/knowledge.faiss
+data/faiss_chunk_ids.json
+
+# Temporary experiment files
+experiments/tempCodeRunnerFile.py
+
+
+
+# Temporary editor file
+experiments/tempCodeRunnerFile.py
